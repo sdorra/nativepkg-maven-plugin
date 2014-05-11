@@ -35,6 +35,7 @@ import org.freecompany.redline.Builder;
 
 //~--- JDK imports ------------------------------------------------------------
 
+import java.io.File;
 import java.io.IOException;
 
 import java.security.NoSuchAlgorithmException;
@@ -43,7 +44,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Sebastian Sdorra
  */
-public class DirectoryMapping extends AbstractFileMapping
+public class DirectoryMapping extends FileMapping
 {
 
   /**
@@ -62,5 +63,21 @@ public class DirectoryMapping extends AbstractFileMapping
     Preconditions.checkArgument(!Strings.isNullOrEmpty(path));
     builder.addDirectory(path, permissions, directive, uname, gname,
       addParents);
+
+    if ((source != null) && source.exists())
+    {
+      String fpath = path;
+
+      if (!fpath.endsWith("/"))
+      {
+        fpath = fpath.concat("/");
+      }
+
+      for (File file : source.listFiles())
+      {
+        builder.addFile(fpath.concat(file.getName()), file, mode, dirMode,
+          directive, uname, gname, addParents);
+      }
+    }
   }
 }

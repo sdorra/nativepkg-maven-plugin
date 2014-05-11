@@ -32,6 +32,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import org.freecompany.redline.Builder;
+import org.freecompany.redline.payload.Directive;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -44,7 +45,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Sebastian Sdorra
  */
-public class FileMapping extends AbstractFileMapping
+public class FileMapping implements Mapping
 {
 
   /**
@@ -85,9 +86,53 @@ public class FileMapping extends AbstractFileMapping
    *
    * @return
    */
+  public Directive getDirective()
+  {
+    return directive;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public String getGname()
+  {
+    return gname;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public int getMode()
   {
     return mode;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public String getPath()
+  {
+    return path;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public int getPermissions()
+  {
+    return permissions;
   }
 
   /**
@@ -101,7 +146,40 @@ public class FileMapping extends AbstractFileMapping
     return source;
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public String getUname()
+  {
+    return uname;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public boolean isAddParents()
+  {
+    return addParents;
+  }
+
   //~--- set methods ----------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param addParents
+   */
+  public void setAddParents(boolean addParents)
+  {
+    this.addParents = addParents;
+  }
 
   /**
    * Method description
@@ -112,6 +190,28 @@ public class FileMapping extends AbstractFileMapping
   public void setDirMode(int dirMode)
   {
     this.dirMode = dirMode;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param directive
+   */
+  public void setDirective(Directive directive)
+  {
+    this.directive = directive;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param gname
+   */
+  public void setGname(String gname)
+  {
+    this.gname = gname;
   }
 
   /**
@@ -129,6 +229,28 @@ public class FileMapping extends AbstractFileMapping
    * Method description
    *
    *
+   * @param path
+   */
+  public void setPath(String path)
+  {
+    this.path = path;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param permissions
+   */
+  public void setPermissions(int permissions)
+  {
+    this.permissions = permissions;
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param source
    */
   public void setSource(File source)
@@ -136,14 +258,43 @@ public class FileMapping extends AbstractFileMapping
     this.source = source;
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @param uname
+   */
+  public void setUname(String uname)
+  {
+    this.uname = uname;
+  }
+
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  private int dirMode = -1;
+  protected boolean addParents;
 
   /** Field description */
-  private int mode = -1;
+  protected int dirMode = -1;
 
   /** Field description */
-  private File source;
+  protected Directive directive;
+
+  /** Field description */
+  protected String gname;
+
+  /** Field description */
+  protected int mode = -1;
+
+  /** Field description */
+  protected String path;
+
+  /** Field description */
+  protected int permissions = -1;
+
+  /** Field description */
+  protected File source;
+
+  /** Field description */
+  protected String uname;
 }

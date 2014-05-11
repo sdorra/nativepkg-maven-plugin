@@ -58,9 +58,9 @@ public class Mappings implements Mapping
   public void attach(Builder builder)
     throws NoSuchAlgorithmException, IOException
   {
-    attach(builder, links);
-    attach(builder, files);
     attach(builder, directories);
+    attach(builder, files);
+    attach(builder, links);
   }
 
   //~--- get methods ----------------------------------------------------------

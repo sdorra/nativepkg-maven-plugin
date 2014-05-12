@@ -567,7 +567,7 @@ public abstract class NativePkgMojo extends Slf4jMojo
   protected File targetDirectory;
 
   /** Field description */
-  @Parameter
+  @Parameter(defaultValue = "${projet.url}")
   protected String url;
 
   /** Field description */

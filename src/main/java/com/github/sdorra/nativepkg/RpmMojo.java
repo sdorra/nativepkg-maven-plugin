@@ -47,6 +47,7 @@ import static com.google.common.base.Preconditions.*;
 
 //~--- JDK imports ------------------------------------------------------------
 
+import java.io.File;
 import java.io.IOException;
 
 import java.security.NoSuchAlgorithmException;
@@ -60,6 +61,11 @@ import java.util.Locale;
 @Mojo(name = "rpm", defaultPhase = LifecyclePhase.PACKAGE)
 public class RpmMojo extends NativePkgMojo
 {
+
+  /** Field description */
+  private static final String TYPE = "rpm";
+
+  //~--- get methods ----------------------------------------------------------
 
   /**
    * Method description
@@ -139,6 +145,14 @@ public class RpmMojo extends NativePkgMojo
       mappings.attach(builder);
 
       String filename = builder.build(targetDirectory);
+      File rpm = new File(targetDirectory, filename);
+
+      if (!rpm.exists())
+      {
+        throw new MojoExecutionException("rpm file not found");
+      }
+
+      attachArtifact(TYPE, rpm);
     }
     catch (IOException ex)
     {

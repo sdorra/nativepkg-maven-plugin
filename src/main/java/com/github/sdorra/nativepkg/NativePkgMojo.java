@@ -31,7 +31,10 @@ package com.github.sdorra.nativepkg;
 import com.github.sdorra.nativepkg.mappings.Dependency;
 import com.github.sdorra.nativepkg.mappings.Mappings;
 
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -55,6 +58,17 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public String getBuildHost()
   {
     return buildHost;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public String getClassifier()
+  {
+    return classifier;
   }
 
   /**
@@ -162,6 +176,28 @@ public abstract class NativePkgMojo extends Slf4jMojo
    *
    * @return
    */
+  public MavenProject getProject()
+  {
+    return project;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public MavenProjectHelper getProjectHelper()
+  {
+    return projectHelper;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getRelease()
   {
     return release;
@@ -222,7 +258,29 @@ public abstract class NativePkgMojo extends Slf4jMojo
     return version;
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public boolean isAttach()
+  {
+    return attach;
+  }
+
   //~--- set methods ----------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param attach
+   */
+  public void setAttach(boolean attach)
+  {
+    this.attach = attach;
+  }
 
   /**
    * Method description
@@ -233,6 +291,17 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public void setBuildHost(String buildHost)
   {
     this.buildHost = buildHost;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param classifier
+   */
+  public void setClassifier(String classifier)
+  {
+    this.classifier = classifier;
   }
 
   /**
@@ -338,6 +407,28 @@ public abstract class NativePkgMojo extends Slf4jMojo
    * Method description
    *
    *
+   * @param project
+   */
+  public void setProject(MavenProject project)
+  {
+    this.project = project;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param projectHelper
+   */
+  public void setProjectHelper(MavenProjectHelper projectHelper)
+  {
+    this.projectHelper = projectHelper;
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param release
    */
   public void setRelease(String release)
@@ -400,7 +491,28 @@ public abstract class NativePkgMojo extends Slf4jMojo
     this.version = version;
   }
 
+  //~--- methods --------------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param type
+   * @param file
+   */
+  protected void attachArtifact(String type, File file)
+  {
+    if (attach && file.exists())
+    {
+      projectHelper.attachArtifact(project, type, classifier, file);
+    }
+  }
+
   //~--- fields ---------------------------------------------------------------
+
+  /** Field description */
+  @Parameter
+  protected boolean attach = false;
 
   /** Field description */
   @Parameter
@@ -465,4 +577,16 @@ public abstract class NativePkgMojo extends Slf4jMojo
   /** Field description */
   @Parameter(defaultValue = "${project.version}")
   protected String version;
+
+  /** Field description */
+  @Parameter
+  private String classifier;
+
+  /** Field description */
+  @Component
+  private MavenProject project;
+
+  /** Field description */
+  @Component
+  private MavenProjectHelper projectHelper;
 }

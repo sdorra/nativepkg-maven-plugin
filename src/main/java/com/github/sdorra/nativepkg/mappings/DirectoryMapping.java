@@ -30,15 +30,13 @@ package com.github.sdorra.nativepkg.mappings;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-
-import org.freecompany.redline.Builder;
+import com.google.common.collect.Lists;
 
 //~--- JDK imports ------------------------------------------------------------
 
 import java.io.File;
-import java.io.IOException;
 
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  *
@@ -51,18 +49,13 @@ public class DirectoryMapping extends FileMapping
    * Method description
    *
    *
-   * @param builder
-   *
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
+   * @return
    */
-  @Override
-  public void attach(Builder builder)
-    throws NoSuchAlgorithmException, IOException
+  public List<FileMapping> getFiles()
   {
     Preconditions.checkArgument(!Strings.isNullOrEmpty(path));
-    builder.addDirectory(path, permissions, directive, uname, gname,
-      addParents);
+
+    List<FileMapping> files = Lists.newArrayList();
 
     if ((source != null) && source.exists())
     {
@@ -75,9 +68,11 @@ public class DirectoryMapping extends FileMapping
 
       for (File file : source.listFiles())
       {
-        builder.addFile(fpath.concat(file.getName()), file, mode, dirMode,
-          directive, uname, gname, addParents);
+        files.add(new FileMapping(fpath.concat(file.getName()), file, mode,
+          dirMode, uname, gname));
       }
     }
+
+    return files;
   }
 }

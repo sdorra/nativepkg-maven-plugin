@@ -53,9 +53,7 @@ import org.vafer.jdeb.PackagingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import java.util.Collections;
 import java.util.List;
-import org.freecompany.redline.payload.Directive;
 
 /**
  *

@@ -28,13 +28,9 @@ package com.github.sdorra.nativepkg.mappings;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import org.freecompany.redline.Builder;
+import com.google.common.collect.Lists;
 
 //~--- JDK imports ------------------------------------------------------------
-
-import java.io.IOException;
-
-import java.security.NoSuchAlgorithmException;
 
 import java.util.List;
 
@@ -42,28 +38,8 @@ import java.util.List;
  *
  * @author Sebastian Sdorra
  */
-public class Mappings implements Mapping
+public class Mappings
 {
-
-  /**
-   * Method description
-   *
-   *
-   * @param builder
-   *
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
-   */
-  @Override
-  public void attach(Builder builder)
-    throws NoSuchAlgorithmException, IOException
-  {
-    attach(builder, directories);
-    attach(builder, files);
-    attach(builder, links);
-  }
-
-  //~--- get methods ----------------------------------------------------------
 
   /**
    * Method description
@@ -73,6 +49,11 @@ public class Mappings implements Mapping
    */
   public List<DirectoryMapping> getDirectories()
   {
+    if (directories == null)
+    {
+      directories = Lists.newArrayList();
+    }
+
     return directories;
   }
 
@@ -84,6 +65,11 @@ public class Mappings implements Mapping
    */
   public List<FileMapping> getFiles()
   {
+    if (files == null)
+    {
+      files = Lists.newArrayList();
+    }
+
     return files;
   }
 
@@ -95,6 +81,11 @@ public class Mappings implements Mapping
    */
   public List<LinkMapping> getLinks()
   {
+    if (links == null)
+    {
+      links = Lists.newArrayList();
+    }
+
     return links;
   }
 
@@ -131,30 +122,6 @@ public class Mappings implements Mapping
   public void setLinks(List<LinkMapping> links)
   {
     this.links = links;
-  }
-
-  //~--- methods --------------------------------------------------------------
-
-  /**
-   * Method description
-   *
-   *
-   * @param builder
-   * @param mappings
-   *
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
-   */
-  private void attach(Builder builder, List<? extends Mapping> mappings)
-    throws NoSuchAlgorithmException, IOException
-  {
-    if (mappings != null)
-    {
-      for (Mapping m : mappings)
-      {
-        m.attach(builder);
-      }
-    }
   }
 
   //~--- fields ---------------------------------------------------------------

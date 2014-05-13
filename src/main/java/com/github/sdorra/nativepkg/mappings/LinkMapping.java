@@ -26,45 +26,12 @@
 
 package com.github.sdorra.nativepkg.mappings;
 
-//~--- non-JDK imports --------------------------------------------------------
-
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-
-import org.freecompany.redline.Builder;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.io.IOException;
-
-import java.security.NoSuchAlgorithmException;
-
 /**
  *
  * @author Sebastian Sdorra
  */
-public class LinkMapping implements Mapping
+public class LinkMapping
 {
-
-  /**
-   * Method description
-   *
-   *
-   * @param builder
-   * 
-   * @throws NoSuchAlgorithmException
-   * @throws IOException
-   */
-  @Override
-  public void attach(Builder builder)
-    throws NoSuchAlgorithmException, IOException
-  {
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(source));
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(target));
-    builder.addLink(source, target, permissions);
-  }
-
-  //~--- get methods ----------------------------------------------------------
 
   /**
    * Method description

@@ -29,6 +29,9 @@ package com.github.sdorra.nativepkg;
 //~--- non-JDK imports --------------------------------------------------------
 
 import com.github.sdorra.nativepkg.mappings.Dependency;
+import com.github.sdorra.nativepkg.mappings.DirectoryMapping;
+import com.github.sdorra.nativepkg.mappings.FileMapping;
+import com.github.sdorra.nativepkg.mappings.LinkMapping;
 
 import com.google.common.base.Strings;
 
@@ -42,6 +45,7 @@ import org.freecompany.redline.Builder;
 import org.freecompany.redline.header.Architecture;
 import org.freecompany.redline.header.Os;
 import org.freecompany.redline.header.RpmType;
+import org.freecompany.redline.payload.Directive;
 
 import static com.google.common.base.Preconditions.*;
 
@@ -182,11 +186,11 @@ public class RpmMojo extends NativePkgMojo
       {
         for (Dependency dep : dependencies)
         {
-          dep.attach(builder);
+          attach(builder, dep);
         }
       }
 
-      mappings.attach(builder);
+      attach(builder);
 
       String filename = builder.build(targetDirectory);
       File rpm = new File(targetDirectory, filename);
@@ -206,6 +210,89 @@ public class RpmMojo extends NativePkgMojo
     {
       throw new MojoExecutionException("could not create rpm", ex);
     }
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param builder
+   * @param dep
+   */
+  private void attach(Builder builder, Dependency dep)
+  {
+    builder.addDependency(dep.getName(), dep.getComparison(), dep.getVersion());
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param builder
+   *
+   * @throws IOException
+   * @throws NoSuchAlgorithmException
+   */
+  private void attach(Builder builder)
+    throws IOException, NoSuchAlgorithmException
+  {
+    for (DirectoryMapping dir : mappings.getDirectories())
+    {
+      builder.addDirectory(dir.getPath(), dir.getPermissions(), null,
+        dir.getUname(), dir.getGname(), true);
+      attach(builder, dir.getFiles());
+    }
+
+    attach(builder, mappings.getFiles());
+
+    for (LinkMapping link : mappings.getLinks())
+    {
+      builder.addLink(link.getSource(), link.getTarget(),
+        link.getPermissions());
+    }
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param builder
+   * @param files
+   *
+   * @throws IOException
+   * @throws NoSuchAlgorithmException
+   */
+  private void attach(Builder builder, Iterable<FileMapping> files)
+    throws IOException, NoSuchAlgorithmException
+  {
+    for (FileMapping file : files)
+    {
+      attach(builder, file);
+    }
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param builder
+   * @param file
+   *
+   * @throws IOException
+   * @throws NoSuchAlgorithmException
+   */
+  private void attach(Builder builder, FileMapping file)
+    throws IOException, NoSuchAlgorithmException
+  {
+    Directive directive = null;
+
+    if (file.isConfig())
+    {
+      directive = Directive.CONFIG;
+    }
+
+    builder.addFile(file.getPath(), file.getSource(), file.getMode(),
+      file.getDirMode(), directive, file.getUname(), file.getUname(), true);
   }
 
   /**

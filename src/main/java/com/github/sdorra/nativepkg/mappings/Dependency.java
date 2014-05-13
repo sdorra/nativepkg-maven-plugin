@@ -26,15 +26,11 @@
 
 package com.github.sdorra.nativepkg.mappings;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import org.freecompany.redline.Builder;
-
 /**
  *
  * @author Sebastian Sdorra
  */
-public class Dependency implements Mapping
+public class Dependency
 {
 
   /**
@@ -115,11 +111,4 @@ public class Dependency implements Mapping
 
   /** Field description */
   private String version;
-
-  @Override
-  public void attach(Builder builder) throws NoSuchAlgorithmException,
-    IOException
-  {
-    builder.addDependency(name, comparison, version);
-  }
 }

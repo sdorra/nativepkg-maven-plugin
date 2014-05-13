@@ -26,45 +26,43 @@
 
 package com.github.sdorra.nativepkg.mappings;
 
-//~--- non-JDK imports --------------------------------------------------------
-
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-
-import org.freecompany.redline.Builder;
-import org.freecompany.redline.payload.Directive;
-
 //~--- JDK imports ------------------------------------------------------------
 
 import java.io.File;
-import java.io.IOException;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  *
  * @author Sebastian Sdorra
  */
-public class FileMapping implements Mapping
+public class FileMapping
 {
 
   /**
-   * Method description
+   * Constructs ...
    *
-   *
-   * @param builder
-   *
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
    */
-  @Override
-  public void attach(Builder builder)
-    throws NoSuchAlgorithmException, IOException
+  public FileMapping() {}
+
+  /**
+   * Constructs ...
+   *
+   *
+   * @param path
+   * @param source
+   * @param mode
+   * @param dirMode
+   * @param uname
+   * @param gname
+   */
+  public FileMapping(String path, File source, int mode, int dirMode,
+    String uname, String gname)
   {
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(path));
-    Preconditions.checkArgument(source.exists());
-    builder.addFile(path, source, mode, dirMode, directive, uname, gname,
-      addParents);
+    this.path = path;
+    this.source = source;
+    this.mode = mode;
+    this.dirMode = dirMode;
+    this.uname = uname;
+    this.gname = gname;
   }
 
   //~--- get methods ----------------------------------------------------------
@@ -78,17 +76,6 @@ public class FileMapping implements Mapping
   public int getDirMode()
   {
     return dirMode;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
-  public Directive getDirective()
-  {
-    return directive;
   }
 
   /**
@@ -163,34 +150,12 @@ public class FileMapping implements Mapping
    *
    * @return
    */
-  public boolean isAddParents()
-  {
-    return addParents;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public boolean isConfig()
   {
     return config;
   }
 
   //~--- set methods ----------------------------------------------------------
-
-  /**
-   * Method description
-   *
-   *
-   * @param addParents
-   */
-  public void setAddParents(boolean addParents)
-  {
-    this.addParents = addParents;
-  }
 
   /**
    * Method description
@@ -212,17 +177,6 @@ public class FileMapping implements Mapping
   public void setDirMode(int dirMode)
   {
     this.dirMode = dirMode;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @param directive
-   */
-  public void setDirective(Directive directive)
-  {
-    this.directive = directive;
   }
 
   /**
@@ -294,16 +248,10 @@ public class FileMapping implements Mapping
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  protected boolean addParents;
-
-  /** Field description */
   protected boolean config = false;
 
   /** Field description */
   protected int dirMode = -1;
-
-  /** Field description */
-  protected Directive directive;
 
   /** Field description */
   protected String gname;

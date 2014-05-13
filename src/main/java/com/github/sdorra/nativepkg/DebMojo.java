@@ -31,6 +31,7 @@ package com.github.sdorra.nativepkg;
 import com.github.sdorra.nativepkg.deb.ControlFileWriter;
 import com.github.sdorra.nativepkg.deb.MappingDataProducer;
 import com.github.sdorra.nativepkg.deb.Slf4jConsole;
+import com.github.sdorra.nativepkg.mappings.Mappings;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -126,6 +127,33 @@ public class DebMojo extends NativePkgMojo
    *
    * @return
    */
+  public String getDebFileName()
+  {
+    return debFileName;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public Mappings getDebMappings()
+  {
+    if (debMappings == null)
+    {
+      debMappings = new Mappings();
+    }
+
+    return debMappings;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getPriority()
   {
     return priority;
@@ -186,6 +214,28 @@ public class DebMojo extends NativePkgMojo
   public void setConflicts(String conflicts)
   {
     this.conflicts = conflicts;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param debFileName
+   */
+  public void setDebFileName(String debFileName)
+  {
+    this.debFileName = debFileName;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param debMappings
+   */
+  public void setDebMappings(Mappings debMappings)
+  {
+    this.debMappings = debMappings;
   }
 
   /**
@@ -262,15 +312,22 @@ public class DebMojo extends NativePkgMojo
     mkdirs(controldir);
     createControldir(controldir);
 
-    List<DataProducer> dataProducers =
-      Lists.<DataProducer>newArrayList(new MappingDataProducer(mappings,
-        false));
+    Mappings mergedMappings = getMappings().merge(getDebMappings());
 
-    List<DataProducer> confProducers =
-      Lists.<DataProducer>newArrayList(new MappingDataProducer(mappings, true));
-
-    DebMaker maker = new DebMaker(new Slf4jConsole(logger), dataProducers,
-                       confProducers);
+    //J-
+    List<DataProducer> dataProducers = Lists.<DataProducer>newArrayList(
+      new MappingDataProducer(mergedMappings, false)
+    );
+    List<DataProducer> confProducers = Lists.<DataProducer>newArrayList(
+      new MappingDataProducer(mergedMappings, true)
+    );
+    
+    DebMaker maker = new DebMaker(
+      new Slf4jConsole(logger), 
+      dataProducers,
+      confProducers
+    );
+    //J+
 
     maker.setControl(controldir);
     maker.setSignPackage(false);
@@ -385,6 +442,10 @@ public class DebMojo extends NativePkgMojo
   /** Field description */
   @Parameter(defaultValue = "${project.artifactId}-${project.version}.deb")
   private String debFileName;
+
+  /** Field description */
+  @Parameter
+  private Mappings debMappings;
 
   /** Field description */
   @Parameter

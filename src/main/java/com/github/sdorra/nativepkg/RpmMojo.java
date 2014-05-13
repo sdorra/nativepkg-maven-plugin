@@ -32,6 +32,7 @@ import com.github.sdorra.nativepkg.mappings.Dependency;
 import com.github.sdorra.nativepkg.mappings.DirectoryMapping;
 import com.github.sdorra.nativepkg.mappings.FileMapping;
 import com.github.sdorra.nativepkg.mappings.LinkMapping;
+import com.github.sdorra.nativepkg.mappings.Mappings;
 
 import com.google.common.base.Strings;
 
@@ -223,6 +224,19 @@ public class RpmMojo extends NativePkgMojo
   {
     builder.addDependency(dep.getName(), dep.getComparison(), dep.getVersion());
   }
+  
+  @Parameter
+  private Mappings rpmMappings;
+
+  public Mappings getRpmMappings()
+  {
+    if (rpmMappings == null){
+      rpmMappings = new Mappings();
+    }
+    return rpmMappings;
+  }
+  
+  
 
   /**
    * Method description
@@ -236,16 +250,17 @@ public class RpmMojo extends NativePkgMojo
   private void attach(Builder builder)
     throws IOException, NoSuchAlgorithmException
   {
-    for (DirectoryMapping dir : mappings.getDirectories())
+    Mappings mergedMappings = getMappings().merge(getRpmMappings());
+    for (DirectoryMapping dir : mergedMappings.getDirectories())
     {
       builder.addDirectory(dir.getPath(), dir.getPermissions(), null,
         dir.getUname(), dir.getGname(), true);
       attach(builder, dir.getFiles());
     }
 
-    attach(builder, mappings.getFiles());
+    attach(builder, mergedMappings.getFiles());
 
-    for (LinkMapping link : mappings.getLinks())
+    for (LinkMapping link : mergedMappings.getLinks())
     {
       builder.addLink(link.getSource(), link.getTarget(),
         link.getPermissions());

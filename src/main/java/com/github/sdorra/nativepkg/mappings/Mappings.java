@@ -28,6 +28,7 @@ package com.github.sdorra.nativepkg.mappings;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 //~--- JDK imports ------------------------------------------------------------
@@ -42,12 +43,59 @@ public class Mappings
 {
 
   /**
+   * Constructs ...
+   *
+   */
+  public Mappings() {}
+
+  /**
+   * Constructs ...
+   *
+   *
+   * @param directories
+   * @param files
+   * @param links
+   */
+  public Mappings(Iterable<DirectoryMapping> directories,
+    Iterable<FileMapping> files, Iterable<LinkMapping> links)
+  {
+    this.directories = directories;
+    this.files = files;
+    this.links = links;
+  }
+
+  //~--- methods --------------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param mergable
+   *
+   * @return
+   */
+  public Mappings merge(Mappings mergable)
+  {
+    //J-
+    Mappings mappings = new Mappings(
+      Iterables.concat(getDirectories(), mergable.getDirectories()),
+      Iterables.concat(getFiles(), mergable.getFiles()),
+      Iterables.concat(getLinks(), mergable.getLinks())
+    );
+    //J+
+
+    return mappings;
+  }
+
+  //~--- get methods ----------------------------------------------------------
+
+  /**
    * Method description
    *
    *
    * @return
    */
-  public List<DirectoryMapping> getDirectories()
+  public Iterable<DirectoryMapping> getDirectories()
   {
     if (directories == null)
     {
@@ -63,7 +111,7 @@ public class Mappings
    *
    * @return
    */
-  public List<FileMapping> getFiles()
+  public Iterable<FileMapping> getFiles()
   {
     if (files == null)
     {
@@ -79,7 +127,7 @@ public class Mappings
    *
    * @return
    */
-  public List<LinkMapping> getLinks()
+  public Iterable<LinkMapping> getLinks()
   {
     if (links == null)
     {
@@ -97,7 +145,7 @@ public class Mappings
    *
    * @param directories
    */
-  public void setDirectories(List<DirectoryMapping> directories)
+  public void setDirectories(Iterable<DirectoryMapping> directories)
   {
     this.directories = directories;
   }
@@ -108,7 +156,7 @@ public class Mappings
    *
    * @param files
    */
-  public void setFiles(List<FileMapping> files)
+  public void setFiles(Iterable<FileMapping> files)
   {
     this.files = files;
   }
@@ -119,7 +167,7 @@ public class Mappings
    *
    * @param links
    */
-  public void setLinks(List<LinkMapping> links)
+  public void setLinks(Iterable<LinkMapping> links)
   {
     this.links = links;
   }
@@ -127,11 +175,11 @@ public class Mappings
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  private List<DirectoryMapping> directories;
+  private Iterable<DirectoryMapping> directories;
 
   /** Field description */
-  private List<FileMapping> files;
+  private Iterable<FileMapping> files;
 
   /** Field description */
-  private List<LinkMapping> links;
+  private Iterable<LinkMapping> links;
 }

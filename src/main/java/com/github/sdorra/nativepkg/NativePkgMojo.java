@@ -147,6 +147,9 @@ public abstract class NativePkgMojo extends Slf4jMojo
    */
   public Mappings getMappings()
   {
+    if (mappings == null){
+      mappings = new Mappings();
+    }
     return mappings;
   }
 

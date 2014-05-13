@@ -36,9 +36,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 //~--- JDK imports ------------------------------------------------------------
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.IOException;
 
 import java.util.List;
 
@@ -48,6 +53,14 @@ import java.util.List;
  */
 public abstract class NativePkgMojo extends Slf4jMojo
 {
+
+  /**
+   * the logger for NativePkgMojo
+   */
+  private static final Logger logger =
+    LoggerFactory.getLogger(NativePkgMojo.class);
+
+  //~--- get methods ----------------------------------------------------------
 
   /**
    * Method description
@@ -102,17 +115,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public String getDestribution()
   {
     return destribution;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
-  public String getGroup()
-  {
-    return group;
   }
 
   /**
@@ -190,17 +192,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public MavenProjectHelper getProjectHelper()
   {
     return projectHelper;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
-  public String getRelease()
-  {
-    return release;
   }
 
   /**
@@ -341,17 +332,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
    * Method description
    *
    *
-   * @param group
-   */
-  public void setGroup(String group)
-  {
-    this.group = group;
-  }
-
-  /**
-   * Method description
-   *
-   *
    * @param license
    */
   public void setLicense(String license)
@@ -429,17 +409,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
    * Method description
    *
    *
-   * @param release
-   */
-  public void setRelease(String release)
-  {
-    this.release = release;
-  }
-
-  /**
-   * Method description
-   *
-   *
    * @param summary
    */
   public void setSummary(String summary)
@@ -508,6 +477,27 @@ public abstract class NativePkgMojo extends Slf4jMojo
     }
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @param closeable
+   */
+  protected void close(Closeable closeable)
+  {
+    if (closeable != null)
+    {
+      try
+      {
+        closeable.close();
+      }
+      catch (IOException ex)
+      {
+        logger.warn("could not close closeable", ex);
+      }
+    }
+  }
+
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
@@ -532,10 +522,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
 
   /** Field description */
   @Parameter
-  protected String group;
-
-  /** Field description */
-  @Parameter
   protected String license;
 
   /** Field description */
@@ -553,10 +539,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   /** Field description */
   @Parameter
   protected Platform platform;
-
-  /** Field description */
-  @Parameter(defaultValue = "${maven.build.timestamp}")
-  protected String release;
 
   /** Field description */
   @Parameter

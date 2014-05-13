@@ -168,6 +168,17 @@ public class FileMapping implements Mapping
     return addParents;
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public boolean isConfig()
+  {
+    return config;
+  }
+
   //~--- set methods ----------------------------------------------------------
 
   /**
@@ -179,6 +190,17 @@ public class FileMapping implements Mapping
   public void setAddParents(boolean addParents)
   {
     this.addParents = addParents;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param config
+   */
+  public void setConfig(boolean config)
+  {
+    this.config = config;
   }
 
   /**
@@ -273,6 +295,9 @@ public class FileMapping implements Mapping
 
   /** Field description */
   protected boolean addParents;
+
+  /** Field description */
+  protected boolean config = false;
 
   /** Field description */
   protected int dirMode = -1;

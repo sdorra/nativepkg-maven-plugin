@@ -73,12 +73,56 @@ public class RpmMojo extends NativePkgMojo
    *
    * @return
    */
+  public String getGroup()
+  {
+    return group;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public String getRelease()
+  {
+    return release;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getType()
   {
     return type;
   }
 
   //~--- set methods ----------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param group
+   */
+  public void setGroup(String group)
+  {
+    this.group = group;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param release
+   */
+  public void setRelease(String release)
+  {
+    this.release = release;
+  }
 
   /**
    * Method description
@@ -200,6 +244,14 @@ public class RpmMojo extends NativePkgMojo
   }
 
   //~--- fields ---------------------------------------------------------------
+
+  /** Field description */
+  @Parameter
+  protected String group;
+
+  /** Field description */
+  @Parameter(defaultValue = "${maven.build.timestamp}")
+  protected String release;
 
   /** Field description */
   @Parameter

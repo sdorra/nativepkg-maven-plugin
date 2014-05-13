@@ -28,7 +28,6 @@ package com.github.sdorra.nativepkg.mappings;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 //~--- JDK imports ------------------------------------------------------------
@@ -56,8 +55,8 @@ public class Mappings
    * @param files
    * @param links
    */
-  public Mappings(Iterable<DirectoryMapping> directories,
-    Iterable<FileMapping> files, Iterable<LinkMapping> links)
+  public Mappings(List<DirectoryMapping> directories, List<FileMapping> files,
+    List<LinkMapping> links)
   {
     this.directories = directories;
     this.files = files;
@@ -78,9 +77,9 @@ public class Mappings
   {
     //J-
     Mappings mappings = new Mappings(
-      Iterables.concat(getDirectories(), mergable.getDirectories()),
-      Iterables.concat(getFiles(), mergable.getFiles()),
-      Iterables.concat(getLinks(), mergable.getLinks())
+      concat(getDirectories(), mergable.getDirectories()),
+      concat(getFiles(), mergable.getFiles()),
+      concat(getLinks(), mergable.getLinks())
     );
     //J+
 
@@ -95,7 +94,7 @@ public class Mappings
    *
    * @return
    */
-  public Iterable<DirectoryMapping> getDirectories()
+  public List<DirectoryMapping> getDirectories()
   {
     if (directories == null)
     {
@@ -111,7 +110,7 @@ public class Mappings
    *
    * @return
    */
-  public Iterable<FileMapping> getFiles()
+  public List<FileMapping> getFiles()
   {
     if (files == null)
     {
@@ -127,7 +126,7 @@ public class Mappings
    *
    * @return
    */
-  public Iterable<LinkMapping> getLinks()
+  public List<LinkMapping> getLinks()
   {
     if (links == null)
     {
@@ -145,7 +144,7 @@ public class Mappings
    *
    * @param directories
    */
-  public void setDirectories(Iterable<DirectoryMapping> directories)
+  public void setDirectories(List<DirectoryMapping> directories)
   {
     this.directories = directories;
   }
@@ -156,7 +155,7 @@ public class Mappings
    *
    * @param files
    */
-  public void setFiles(Iterable<FileMapping> files)
+  public void setFiles(List<FileMapping> files)
   {
     this.files = files;
   }
@@ -167,19 +166,40 @@ public class Mappings
    *
    * @param links
    */
-  public void setLinks(Iterable<LinkMapping> links)
+  public void setLinks(List<LinkMapping> links)
   {
     this.links = links;
+  }
+
+  //~--- methods --------------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param list
+   * @param other
+   * @param <T>
+   *
+   * @return
+   */
+  private <T> List<T> concat(List<T> list, List<T> other)
+  {
+    List<T> result = Lists.newArrayList(list);
+
+    result.addAll(other);
+
+    return result;
   }
 
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  private Iterable<DirectoryMapping> directories;
+  private List<DirectoryMapping> directories;
 
   /** Field description */
-  private Iterable<FileMapping> files;
+  private List<FileMapping> files;
 
   /** Field description */
-  private Iterable<LinkMapping> links;
+  private List<LinkMapping> links;
 }

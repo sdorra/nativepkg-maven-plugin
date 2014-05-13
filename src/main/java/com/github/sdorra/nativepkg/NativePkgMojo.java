@@ -68,17 +68,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
    *
    * @return
    */
-  public String getBuildHost()
-  {
-    return buildHost;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public String getClassifier()
   {
     return classifier;
@@ -274,17 +263,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public void setAttach(boolean attach)
   {
     this.attach = attach;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @param buildHost
-   */
-  public void setBuildHost(String buildHost)
-  {
-    this.buildHost = buildHost;
   }
 
   /**
@@ -506,10 +484,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   /** Field description */
   @Parameter
   protected boolean attach = false;
-
-  /** Field description */
-  @Parameter
-  protected String buildHost;
 
   /** Field description */
   @Parameter

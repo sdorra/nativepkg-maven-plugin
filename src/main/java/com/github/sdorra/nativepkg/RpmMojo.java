@@ -78,6 +78,17 @@ public class RpmMojo extends NativePkgMojo
    *
    * @return
    */
+  public String getBuildHost()
+  {
+    return buildHost;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getGroup()
   {
     return group;
@@ -100,12 +111,39 @@ public class RpmMojo extends NativePkgMojo
    *
    * @return
    */
+  public Mappings getRpmMappings()
+  {
+    if (rpmMappings == null)
+    {
+      rpmMappings = new Mappings();
+    }
+
+    return rpmMappings;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getType()
   {
     return type;
   }
 
   //~--- set methods ----------------------------------------------------------
+
+  /**
+   * Method description
+   *
+   *
+   * @param buildHost
+   */
+  public void setBuildHost(String buildHost)
+  {
+    this.buildHost = buildHost;
+  }
 
   /**
    * Method description
@@ -224,19 +262,6 @@ public class RpmMojo extends NativePkgMojo
   {
     builder.addDependency(dep.getName(), dep.getComparison(), dep.getVersion());
   }
-  
-  @Parameter
-  private Mappings rpmMappings;
-
-  public Mappings getRpmMappings()
-  {
-    if (rpmMappings == null){
-      rpmMappings = new Mappings();
-    }
-    return rpmMappings;
-  }
-  
-  
 
   /**
    * Method description
@@ -251,6 +276,7 @@ public class RpmMojo extends NativePkgMojo
     throws IOException, NoSuchAlgorithmException
   {
     Mappings mergedMappings = getMappings().merge(getRpmMappings());
+
     for (DirectoryMapping dir : mergedMappings.getDirectories())
     {
       builder.addDirectory(dir.getPath(), dir.getPermissions(), null,
@@ -349,11 +375,19 @@ public class RpmMojo extends NativePkgMojo
 
   /** Field description */
   @Parameter
+  protected String buildHost;
+
+  /** Field description */
+  @Parameter
   protected String group;
 
   /** Field description */
   @Parameter(defaultValue = "${maven.build.timestamp}")
   protected String release;
+
+  /** Field description */
+  @Parameter
+  private Mappings rpmMappings;
 
   /** Field description */
   @Parameter

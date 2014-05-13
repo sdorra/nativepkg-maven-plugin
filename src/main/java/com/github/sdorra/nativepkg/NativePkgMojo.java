@@ -134,6 +134,17 @@ public abstract class NativePkgMojo extends Slf4jMojo
    *
    * @return
    */
+  public String getMaintainer()
+  {
+    return maintainer;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public Mappings getMappings()
   {
     return mappings;
@@ -148,17 +159,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public String getName()
   {
     return name;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
-  public String getPackager()
-  {
-    return packager;
   }
 
   /**
@@ -343,6 +343,17 @@ public abstract class NativePkgMojo extends Slf4jMojo
    * Method description
    *
    *
+   * @param maintainer
+   */
+  public void setMaintainer(String maintainer)
+  {
+    this.maintainer = maintainer;
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param mappings
    */
   public void setMappings(Mappings mappings)
@@ -359,17 +370,6 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public void setName(String name)
   {
     this.name = name;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @param packager
-   */
-  public void setPackager(String packager)
-  {
-    this.packager = packager;
   }
 
   /**
@@ -525,16 +525,16 @@ public abstract class NativePkgMojo extends Slf4jMojo
   protected String license;
 
   /** Field description */
+  @Parameter(alias = "packager")
+  protected String maintainer;
+
+  /** Field description */
   @Parameter
   protected Mappings mappings;
 
   /** Field description */
   @Parameter(defaultValue = "${project.name}")
   protected String name;
-
-  /** Field description */
-  @Parameter
-  protected String packager;
 
   /** Field description */
   @Parameter

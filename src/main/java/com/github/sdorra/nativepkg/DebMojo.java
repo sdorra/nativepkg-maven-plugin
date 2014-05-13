@@ -367,7 +367,7 @@ public class DebMojo extends NativePkgMojo
       }
     }
 
-    writer.add(CONTROL_MAINTAINER, packager);
+    writer.add(CONTROL_MAINTAINER, maintainer);
     writer.add(CONTROL_HOMEPAGE, url);
     writer.add(CONTROL_DESCRIPTION, desc);
     writer.add(CONTROL_SECTION, section);

@@ -176,7 +176,7 @@ public class RpmMojo extends NativePkgMojo
     builder.setDistribution(destribution);
     builder.setGroup(group);
     builder.setLicense(license);
-    builder.setPackager(packager);
+    builder.setPackager(maintainer);
     builder.setUrl(url);
     builder.setVendor(vendor);
 

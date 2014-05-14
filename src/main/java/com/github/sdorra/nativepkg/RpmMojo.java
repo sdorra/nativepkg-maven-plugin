@@ -279,7 +279,7 @@ public class RpmMojo extends NativePkgMojo
 
     for (DirectoryMapping dir : mergedMappings.getDirectories())
     {
-      builder.addDirectory(dir.getPath(), dir.getPermissions(), null,
+      builder.addDirectory(dir.getPath(), dir.getDirMode(), null,
         dir.getUname(), dir.getGname(), true);
       attach(builder, dir.getFiles());
     }

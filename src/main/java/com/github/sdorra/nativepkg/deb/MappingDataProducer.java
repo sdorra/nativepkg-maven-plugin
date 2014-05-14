@@ -179,7 +179,7 @@ public class MappingDataProducer implements DataProducer
   private Mapper createFileMapper(FileMapping file)
   {
     return new PermMapper(-1, -1, file.getUname(), file.getGname(),
-      file.getPermissions(), file.getDirMode(), -1, null);
+      file.getMode(), file.getDirMode(), -1, null);
   }
 
   /**

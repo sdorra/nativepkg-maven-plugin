@@ -117,17 +117,6 @@ public class FileMapping
    *
    * @return
    */
-  public int getPermissions()
-  {
-    return permissions;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public File getSource()
   {
     return source;
@@ -216,17 +205,6 @@ public class FileMapping
    * Method description
    *
    *
-   * @param permissions
-   */
-  public void setPermissions(int permissions)
-  {
-    this.permissions = permissions;
-  }
-
-  /**
-   * Method description
-   *
-   *
    * @param source
    */
   public void setSource(File source)
@@ -261,9 +239,6 @@ public class FileMapping
 
   /** Field description */
   protected String path;
-
-  /** Field description */
-  protected int permissions = -1;
 
   /** Field description */
   protected File source;

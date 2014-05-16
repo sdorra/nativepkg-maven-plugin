@@ -127,6 +127,17 @@ public class RpmMojo extends NativePkgMojo
    *
    * @return
    */
+  public File getRpmPreInstallScript()
+  {
+    return rpmPreInstallScript;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getType()
   {
     return type;
@@ -165,6 +176,17 @@ public class RpmMojo extends NativePkgMojo
   public void setRelease(String release)
   {
     this.release = release;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param rpmPreInstallScript
+   */
+  public void setRpmPreInstallScript(File rpmPreInstallScript)
+  {
+    this.rpmPreInstallScript = rpmPreInstallScript;
   }
 
   /**
@@ -221,6 +243,28 @@ public class RpmMojo extends NativePkgMojo
 
     try
     {
+      if (rpmPreInstallScript != null)
+      {
+        if (!rpmPreInstallScript.exists())
+        {
+          throw new MojoExecutionException(
+            "could not find rpmPreInstallScript");
+        }
+
+        builder.setPreInstallScript(rpmPreInstallScript);
+      }
+
+      if (rpmPostInstallScript != null)
+      {
+        if (!rpmPostInstallScript.exists())
+        {
+          throw new MojoExecutionException(
+            "could not find rpmPostInstallScript");
+        }
+
+        builder.setPostInstallScript(rpmPostInstallScript);
+      }
+
       if (dependencies != null)
       {
         for (Dependency dep : dependencies)
@@ -388,6 +432,14 @@ public class RpmMojo extends NativePkgMojo
   /** Field description */
   @Parameter
   private Mappings rpmMappings;
+
+  /** Field description */
+  @Parameter
+  private File rpmPostInstallScript;
+
+  /** Field description */
+  @Parameter
+  private File rpmPreInstallScript;
 
   /** Field description */
   @Parameter

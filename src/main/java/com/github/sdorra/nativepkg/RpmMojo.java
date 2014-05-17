@@ -127,9 +127,14 @@ public class RpmMojo extends NativePkgMojo
    *
    * @return
    */
-  public File getRpmPreInstallScript()
+  public Scripts getRpmScripts()
   {
-    return rpmPreInstallScript;
+    if (rpmScripts == null)
+    {
+      rpmScripts = new Scripts();
+    }
+
+    return rpmScripts;
   }
 
   /**
@@ -182,11 +187,11 @@ public class RpmMojo extends NativePkgMojo
    * Method description
    *
    *
-   * @param rpmPreInstallScript
+   * @param rpmScripts
    */
-  public void setRpmPreInstallScript(File rpmPreInstallScript)
+  public void setRpmScripts(Scripts rpmScripts)
   {
-    this.rpmPreInstallScript = rpmPreInstallScript;
+    this.rpmScripts = rpmScripts;
   }
 
   /**
@@ -243,27 +248,9 @@ public class RpmMojo extends NativePkgMojo
 
     try
     {
-      if (rpmPreInstallScript != null)
-      {
-        if (!rpmPreInstallScript.exists())
-        {
-          throw new MojoExecutionException(
-            "could not find rpmPreInstallScript");
-        }
+      Scripts scripts = getRpmScripts().merge(getScripts());
 
-        builder.setPreInstallScript(rpmPreInstallScript);
-      }
-
-      if (rpmPostInstallScript != null)
-      {
-        if (!rpmPostInstallScript.exists())
-        {
-          throw new MojoExecutionException(
-            "could not find rpmPostInstallScript");
-        }
-
-        builder.setPostInstallScript(rpmPostInstallScript);
-      }
+      attachScripts(builder, scripts);
 
       if (dependencies != null)
       {
@@ -384,6 +371,60 @@ public class RpmMojo extends NativePkgMojo
    * Method description
    *
    *
+   * @param builder
+   * @param scripts
+   *
+   * @throws IOException
+   * @throws MojoExecutionException
+   */
+  private void attachScripts(Builder builder, Scripts scripts)
+    throws MojoExecutionException, IOException
+  {
+    if (scripts.getPreInstall() != null)
+    {
+      if (!scripts.getPreInstall().exists())
+      {
+        throw new MojoExecutionException("could not find pre install script");
+      }
+
+      builder.setPreInstallScript(scripts.getPreInstall());
+    }
+
+    if (scripts.getPostInstall() != null)
+    {
+      if (!scripts.getPostInstall().exists())
+      {
+        throw new MojoExecutionException("could not find post install script");
+      }
+
+      builder.setPostInstallScript(scripts.getPostInstall());
+    }
+
+    if (scripts.getPreUninstall() != null)
+    {
+      if (!scripts.getPreUninstall().exists())
+      {
+        throw new MojoExecutionException("could not find pre uninstall script");
+      }
+
+      builder.setPreUninstallScript(scripts.getPreUninstall());
+    }
+
+    if (scripts.getPostUninstall() != null)
+    {
+      if (!scripts.getPostUninstall().exists())
+      {
+        throw new MojoExecutionException("could not find post install script");
+      }
+
+      builder.setPostUninstallScript(scripts.getPostUninstall());
+    }
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param version
    *
    * @return
@@ -419,15 +460,15 @@ public class RpmMojo extends NativePkgMojo
 
   /** Field description */
   @Parameter
-  protected String buildHost;
+  private String buildHost;
 
   /** Field description */
   @Parameter
-  protected String group;
+  private String group;
 
   /** Field description */
   @Parameter(defaultValue = "${maven.build.timestamp}")
-  protected String release;
+  private String release;
 
   /** Field description */
   @Parameter
@@ -435,11 +476,7 @@ public class RpmMojo extends NativePkgMojo
 
   /** Field description */
   @Parameter
-  private File rpmPostInstallScript;
-
-  /** Field description */
-  @Parameter
-  private File rpmPreInstallScript;
+  private Scripts rpmScripts;
 
   /** Field description */
   @Parameter

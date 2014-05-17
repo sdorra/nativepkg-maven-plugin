@@ -35,6 +35,7 @@ import com.github.sdorra.nativepkg.mappings.Mappings;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -52,7 +53,7 @@ import org.vafer.jdeb.PackagingException;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import java.util.List;
 
@@ -154,6 +155,22 @@ public class DebMojo extends NativePkgMojo
    *
    * @return
    */
+  public Scripts getDebScripts()
+  {
+    if (debScripts == null)
+    {
+      debScripts = new Scripts();
+    }
+
+    return debScripts;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getPriority()
   {
     return priority;
@@ -236,6 +253,17 @@ public class DebMojo extends NativePkgMojo
   public void setDebMappings(Mappings debMappings)
   {
     this.debMappings = debMappings;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param debScripts
+   */
+  public void setDebScripts(Scripts debScripts)
+  {
+    this.debScripts = debScripts;
   }
 
   /**
@@ -355,8 +383,35 @@ public class DebMojo extends NativePkgMojo
    * Method description
    *
    *
+   * @param source
+   * @param target
+   *
+   * @throws IOException
+   * @throws MojoExecutionException
+   */
+  private void copyScript(File source, File target)
+    throws MojoExecutionException, IOException
+  {
+    if (source != null)
+    {
+      if (!source.exists())
+      {
+        throw new MojoExecutionException(
+          "could not find script".concat(source.getPath()));
+      }
+
+      Files.copy(source, target);
+    }
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param controldir
    *
+   *
+   * @throws IOException
    * @throws MojoExecutionException
    */
   private void createControldir(File controldir) throws MojoExecutionException
@@ -366,11 +421,20 @@ public class DebMojo extends NativePkgMojo
     try
     {
       writer = new ControlFileWriter(new File(controldir, "control"));
+
+      Scripts scripts = getDebScripts().merge(getScripts());
+
+      copyScript(scripts.getPreInstall(), new File(controldir, "preinst"));
+      copyScript(scripts.getPostInstall(), new File(controldir, "postinst"));
+      copyScript(scripts.getPreUninstall(), new File(controldir, "prerm"));
+      copyScript(scripts.getPostUninstall(), new File(controldir, "postrm"));
+
       writeControlFile(writer);
     }
-    catch (FileNotFoundException ex)
+    catch (IOException ex)
     {
-      throw new MojoExecutionException("could not find control directory", ex);
+      throw new MojoExecutionException("could not create control directory",
+        ex);
     }
     finally
     {
@@ -446,6 +510,10 @@ public class DebMojo extends NativePkgMojo
   /** Field description */
   @Parameter
   private Mappings debMappings;
+
+  /** Field description */
+  @Parameter
+  private Scripts debScripts;
 
   /** Field description */
   @Parameter

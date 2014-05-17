@@ -136,9 +136,11 @@ public abstract class NativePkgMojo extends Slf4jMojo
    */
   public Mappings getMappings()
   {
-    if (mappings == null){
+    if (mappings == null)
+    {
       mappings = new Mappings();
     }
+
     return mappings;
   }
 
@@ -184,6 +186,20 @@ public abstract class NativePkgMojo extends Slf4jMojo
   public MavenProjectHelper getProjectHelper()
   {
     return projectHelper;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public Scripts getScripts()
+  {
+    if (scripts == null){
+      scripts = new Scripts();
+    }
+    return scripts;
   }
 
   /**
@@ -390,6 +406,17 @@ public abstract class NativePkgMojo extends Slf4jMojo
    * Method description
    *
    *
+   * @param scripts
+   */
+  public void setScripts(Scripts scripts)
+  {
+    this.scripts = scripts;
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param summary
    */
   public void setSummary(String summary)
@@ -516,6 +543,10 @@ public abstract class NativePkgMojo extends Slf4jMojo
   /** Field description */
   @Parameter
   protected Platform platform;
+
+  /** Field description */
+  @Parameter
+  private Scripts scripts;
 
   /** Field description */
   @Parameter

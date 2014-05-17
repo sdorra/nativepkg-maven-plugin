@@ -39,6 +39,7 @@ import org.vafer.jdeb.mapping.Mapper;
 import org.vafer.jdeb.mapping.PermMapper;
 import org.vafer.jdeb.producers.DataProducerFile;
 import org.vafer.jdeb.producers.DataProducerLink;
+import org.vafer.jdeb.producers.DataProducerPathTemplate;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -115,6 +116,11 @@ public class MappingDataProducer implements DataProducer
   private void appendDirectory(DataConsumer receiver, DirectoryMapping dir)
     throws IOException
   {
+    Mapper[] mappers = createMappers(dir);
+
+    new DataProducerPathTemplate(new String[] { dir.getPath() }, null, null,
+      mappers).produce(receiver);
+
     File source = dir.getSource();
 
     if ((source != null) && source.exists())
@@ -125,8 +131,6 @@ public class MappingDataProducer implements DataProducer
       {
         fpath = fpath.concat("/");
       }
-
-      Mapper[] mappers = createMappers(dir);
 
       for (File file : source.listFiles())
       {

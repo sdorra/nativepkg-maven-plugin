@@ -252,12 +252,9 @@ public class RpmMojo extends NativePkgMojo
 
       attachScripts(builder, scripts);
 
-      if (dependencies != null)
+      for (Dependency dep : dependencies)
       {
-        for (Dependency dep : dependencies)
-        {
-          attach(builder, dep);
-        }
+        attach(builder, dep);
       }
 
       attach(builder);

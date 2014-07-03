@@ -31,6 +31,7 @@ package com.github.sdorra.nativepkg;
 import com.github.sdorra.nativepkg.deb.ControlFileWriter;
 import com.github.sdorra.nativepkg.deb.MappingDataProducer;
 import com.github.sdorra.nativepkg.deb.Slf4jConsole;
+import com.github.sdorra.nativepkg.mappings.Dependency;
 import com.github.sdorra.nativepkg.mappings.Mappings;
 
 import com.google.common.base.Strings;
@@ -363,7 +364,8 @@ public class DebMojo extends NativePkgMojo
     File debFile = new File(targetDirectory, debFileName);
 
     maker.setDeb(debFile);
-
+    maker.setDepends(createDepends());
+    
     try
     {
       maker.makeDeb();
@@ -376,6 +378,43 @@ public class DebMojo extends NativePkgMojo
     catch (PackagingException ex)
     {
       throw new MojoExecutionException("could not create deb file", ex);
+    }
+  }
+  
+  /**
+   * Method description
+   *
+   * @return 
+   */
+  private String createDepends()
+  {
+    StringBuilder buffer = new StringBuilder();
+    for ( Dependency dep : getDependencies() )
+    {
+      if (!Strings.isNullOrEmpty(dep.getName()))
+      {
+        appendDepend(buffer, dep);
+      }      
+    }
+    return buffer.toString();
+  }
+  
+  /**
+   * Method description
+   *
+   * @param buffer
+   * @param dep
+   */
+  private void appendDepend(StringBuilder buffer, Dependency dep)
+  {
+    if ( buffer.length() > 0 )
+    {
+      buffer.append(", ");
+    }
+    buffer.append(dep.getName());
+    if (!Strings.isNullOrEmpty(dep.getVersion()))
+    {
+      buffer.append(" (>=").append(dep.getVersion()).append(")");
     }
   }
 

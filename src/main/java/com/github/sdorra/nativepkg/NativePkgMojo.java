@@ -30,6 +30,7 @@ package com.github.sdorra.nativepkg;
 
 import com.github.sdorra.nativepkg.mappings.Dependency;
 import com.github.sdorra.nativepkg.mappings.Mappings;
+import com.google.common.collect.ImmutableList;
 
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -81,6 +82,10 @@ public abstract class NativePkgMojo extends Slf4jMojo
    */
   public List<Dependency> getDependencies()
   {
+    if (dependencies == null)
+    {
+      dependencies = ImmutableList.of();
+    }
     return dependencies;
   }
 

@@ -311,7 +311,7 @@ public class RpmMojo extends NativePkgMojo
     for (DirectoryMapping dir : mergedMappings.getDirectories())
     {
       builder.addDirectory(dir.getPath(), dir.getDirMode(), null,
-        dir.getUname(), dir.getGname(), true);
+        dir.getUname(), dir.getGname(), dir.isAddParents());
       attach(builder, dir.getFiles());
     }
 
@@ -363,8 +363,18 @@ public class RpmMojo extends NativePkgMojo
       directive = Directive.CONFIG;
     }
 
-    builder.addFile(file.getPath(), file.getSource(), file.getMode(),
-      file.getDirMode(), directive, file.getUname(), file.getUname(), true);
+    //J-
+    builder.addFile(
+      file.getPath(), 
+      file.getSource(), 
+      file.getMode(),
+      file.getDirMode(), 
+      directive, 
+      file.getUname(), 
+      file.getUname(), 
+      file.isAddParents()
+    );
+    //J+
   }
 
   /**

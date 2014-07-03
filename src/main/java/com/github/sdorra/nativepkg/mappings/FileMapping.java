@@ -132,6 +132,17 @@ public class FileMapping
   {
     return uname;
   }
+  
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
+  public boolean isAddParents()
+  {
+    return addParents;
+  }
 
   /**
    * Method description
@@ -145,7 +156,18 @@ public class FileMapping
   }
 
   //~--- set methods ----------------------------------------------------------
-
+  
+  /**
+   * Method description
+   *
+   *
+   * @param addParents
+   */  
+  public void setAddParents(boolean addParents)
+  {
+    this.addParents = addParents;
+  }
+  
   /**
    * Method description
    *
@@ -225,6 +247,8 @@ public class FileMapping
 
   //~--- fields ---------------------------------------------------------------
 
+  protected boolean addParents = true;
+  
   /** Field description */
   protected boolean config = false;
 

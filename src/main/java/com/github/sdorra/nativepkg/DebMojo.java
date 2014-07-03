@@ -35,6 +35,8 @@ import com.github.sdorra.nativepkg.mappings.Dependency;
 import com.github.sdorra.nativepkg.mappings.Mappings;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 
@@ -389,7 +391,7 @@ public class DebMojo extends NativePkgMojo
   private String createDepends()
   {
     StringBuilder buffer = new StringBuilder();
-    for ( Dependency dep : getDependencies() )
+    for ( Dependency dep : getMergedDependencies())
     {
       if (!Strings.isNullOrEmpty(dep.getName()))
       {
@@ -535,6 +537,25 @@ public class DebMojo extends NativePkgMojo
     writer.add(CONTROL_REPLACES, replaces);
     writer.add(CONTROL_PRIORITY, priority);
   }
+  
+  public Iterable<Dependency> getMergedDependencies()
+  {
+    return Iterables.concat(getDependencies(), getDebDependencies());
+  }
+
+  public List<Dependency> getDebDependencies()
+  {
+    if (debDependencies == null)
+    {
+      debDependencies = ImmutableList.of();
+    }
+    return debDependencies;
+  }
+
+  public void setDebDependencies(List<Dependency> debDependencies)
+  {
+    this.debDependencies = debDependencies;
+  }
 
   //~--- fields ---------------------------------------------------------------
 
@@ -553,6 +574,11 @@ public class DebMojo extends NativePkgMojo
   /** Field description */
   @Parameter
   private Scripts debScripts;
+  
+  
+  /** Field description */
+  @Parameter
+  private List<Dependency> debDependencies;
 
   /** Field description */
   @Parameter

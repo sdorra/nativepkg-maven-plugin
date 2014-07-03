@@ -34,30 +34,28 @@ import com.github.sdorra.nativepkg.mappings.FileMapping;
 import com.github.sdorra.nativepkg.mappings.LinkMapping;
 import com.github.sdorra.nativepkg.mappings.Mappings;
 
-import com.google.common.base.Strings;
+import static com.google.common.base.Preconditions.*;
 
+//~--- JDK imports ------------------------------------------------------------
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Locale;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
 import org.redline_rpm.Builder;
 import org.redline_rpm.header.Architecture;
 import org.redline_rpm.header.Os;
 import org.redline_rpm.header.RpmType;
 import org.redline_rpm.payload.Directive;
-
-import static com.google.common.base.Preconditions.*;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.io.File;
-import java.io.IOException;
-
-import java.security.NoSuchAlgorithmException;
-
-import java.util.Locale;
 
 /**
  *
@@ -252,7 +250,7 @@ public class RpmMojo extends NativePkgMojo
 
       attachScripts(builder, scripts);
 
-      for (Dependency dep : dependencies)
+      for (Dependency dep : getMergedDependencies())
       {
         attach(builder, dep);
       }
@@ -462,7 +460,26 @@ public class RpmMojo extends NativePkgMojo
 
     return e;
   }
+  
+  public Iterable<Dependency> getMergedDependencies()
+  {
+    return Iterables.concat(getDependencies(), getRpmDependencies());
+  }
 
+  public List<Dependency> getRpmDependencies()
+  {
+    if (rpmDependencies == null)
+    {
+      rpmDependencies = ImmutableList.of();
+    }
+    return rpmDependencies;
+  }
+
+  public void setRpmDependencies(List<Dependency> rpmDependencies)
+  {
+    this.rpmDependencies = rpmDependencies;
+  }
+  
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
@@ -484,6 +501,10 @@ public class RpmMojo extends NativePkgMojo
   /** Field description */
   @Parameter
   private Scripts rpmScripts;
+  
+  /** Field description */
+  @Parameter
+  private List<Dependency> rpmDependencies;
 
   /** Field description */
   @Parameter

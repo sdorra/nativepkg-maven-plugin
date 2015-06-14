@@ -334,7 +334,7 @@ public class DebMojo extends NativePkgMojo
    * @throws MojoFailureException
    */
   @Override
-  protected void doExecute() throws MojoExecutionException, MojoFailureException
+  public void execute() throws MojoExecutionException, MojoFailureException
   {
     mkdirs(temporaryDirectory);
 

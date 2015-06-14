@@ -43,7 +43,7 @@
   </issueManagement>
   
   <prerequisites>
-    <maven>3.0.0</maven>
+    <maven>${maven.version}</maven>
   </prerequisites>
 
   <dependencies>
@@ -51,26 +51,26 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>3.1.0</version>
+      <version>${maven.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>3.1.0</version>
+      <version>${maven.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
-      <version>3.1.0</version>
+      <version>${maven.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-compat</artifactId>
-      <version>3.1.0</version>
+      <version>${maven.version}</version>
     </dependency>
 
     <dependency>
@@ -101,20 +101,6 @@
       <groupId>org.vafer</groupId>
       <artifactId>jdeb</artifactId>
       <version>1.2</version>
-    </dependency>
-
-    <!-- logging -->
-
-    <dependency>
-      <groupId>com.googlecode.slf4j-maven-plugin-log</groupId>
-      <artifactId>slf4j-maven-plugin-log</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.7</version>
     </dependency>
 
     <!-- fix maven conflicts -->
@@ -383,6 +369,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.version>3.1.1</maven.version>
   </properties>
 
 </project>

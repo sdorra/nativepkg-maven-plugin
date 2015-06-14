@@ -213,7 +213,7 @@ public class RpmMojo extends NativePkgMojo
    * @throws MojoFailureException
    */
   @Override
-  protected void doExecute() throws MojoExecutionException, MojoFailureException
+  public void execute() throws MojoExecutionException, MojoFailureException
   {
     checkNotNull(mappings, "mappings is required");
     checkArgument(!Strings.isNullOrEmpty(name), "name is required");

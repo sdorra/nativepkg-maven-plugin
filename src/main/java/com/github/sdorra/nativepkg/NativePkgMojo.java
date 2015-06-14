@@ -47,12 +47,13 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.List;
+import org.apache.maven.plugin.AbstractMojo;
 
 /**
  *
  * @author Sebastian Sdorra
  */
-public abstract class NativePkgMojo extends Slf4jMojo
+public abstract class NativePkgMojo extends AbstractMojo
 {
 
   /**

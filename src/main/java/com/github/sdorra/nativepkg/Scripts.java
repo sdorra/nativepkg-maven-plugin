@@ -76,7 +76,7 @@ public class Scripts
     return new Scripts(
       firstNonNull(preInstall, scripts.getPreInstall()),
       firstNonNull(postInstall, scripts.getPostInstall()),
-      firstNonNull(preUninstall, scripts.getPreInstall()),
+      firstNonNull(preUninstall, scripts.getPreUninstall()),
       firstNonNull(postUninstall, scripts.getPostUninstall())
     );
     //J+

@@ -5,7 +5,7 @@
 
   <groupId>com.github.sdorra</groupId>
   <artifactId>nativepkg-maven-plugin</artifactId>
-  <version>1.1.4-SNAPSHOT</version>
+  <version>1.1.4</version>
   <packaging>maven-plugin</packaging>
   <name>nativepkg-maven-plugin</name>
   <description>
@@ -34,7 +34,7 @@
     <connection>scm:git:git@github.com:sdorra/nativepkg-maven-plugin</connection>
     <developerConnection>scm:git:git@github.com:sdorra/nativepkg-maven-plugin.git</developerConnection>
     <url>git@github.com:sdorra/nativepkg-maven-plugin</url>
-    <tag>HEAD</tag>
+    <tag>1.1.4</tag>
   </scm>
 
   <issueManagement>
